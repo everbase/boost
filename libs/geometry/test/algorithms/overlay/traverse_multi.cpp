@@ -189,6 +189,11 @@ void test_geometries()
             case_100_multi[0], case_100_multi[1]
         );
 
+    test_traverse_intersection::apply
+        (
+            "case_108_multi", 7, 7.5,
+            case_108_multi[0], case_108_multi[1]
+        );
 
     test_traverse_intersection::apply
         (

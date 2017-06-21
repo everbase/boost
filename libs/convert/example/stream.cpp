@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 Vladimir Batov.
+// Copyright (c) 2009-2016 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -63,7 +63,7 @@ example2()
     //]
     //[stream_example4
     ccnv(arg::base = cnv::base::dec)
-        (arg::uppercase = false)
+        (arg::uppercase = true)
         (arg::notation = cnv::notation::scientific);
     //]
     //[stream_example5

@@ -23,6 +23,8 @@
 #include <iostream>  //std::cout, std::endl
 #include <vector>    //std::vector
 #include <cstddef>   //std::size_t
+#include <cassert>   //assert
+
 #include <boost/timer/timer.hpp>
 using boost::timer::cpu_timer;
 using boost::timer::cpu_times;
@@ -265,14 +267,14 @@ int main(int argc, const char *argv[])
    #define SINGLE_TEST
    #ifndef SINGLE_TEST
       #ifdef NDEBUG
-      std::size_t numrep [] = { 3000, 30000, 300000, 3000000, 6000000, 15000000, 30000000 };
+      std::size_t numrep [] = { 300, 3000, 30000, 300000, 600000, 1500000, 3000000 };
       #else
       std::size_t numrep [] = { 20,   200, 2000, 20000, 40000, 100000, 200000 };
       #endif
       std::size_t numele [] = { 10000, 1000, 100, 10, 5, 2, 1     };
    #else
       #ifdef NDEBUG
-      std::size_t numrep [] = { 1500000 };
+      std::size_t numrep [] = { 150000 };
       #else
       std::size_t numrep [] = { 10000 };
       #endif

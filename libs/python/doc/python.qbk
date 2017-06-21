@@ -1,5 +1,5 @@
 [book Boost.Python
-    [quickbook 1.7]
+    [quickbook 1.6]
     [authors [Abrahams, David], [Seefeld, Stefan]]
     [copyright 2002 - 2015 David Abrahams, Stefan Seefeld]
     [category inter-language support]
@@ -50,6 +50,7 @@ The development of these features was funded in part by grants to `Boost Consult
 * [link glossary Glossary]
 * [link support Support Resources]
 * [link faq Frequently Asked Questions (FAQs)]
+* [@numpy/index.html NumPy Extension Documentation]
 
 [endsect]
 

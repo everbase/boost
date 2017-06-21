@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 Vladimir Batov.
+// Copyright (c) 2009-2016 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -13,6 +13,7 @@
 #include <string.h> // For strlen, strcmp, memcpy
 #include <memory.h> // Is needed for 'memset'
 #include <stdio.h>
+#include <time.h>
 
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4189) // local variable is initialized but not referenced.
@@ -21,6 +22,7 @@
 #   pragma warning(disable: 4714) // marked as __forceinline not #endif
 #   pragma warning(disable: 4706)
 #   pragma warning(disable: 4005)
+#   pragma warning(disable: 4459) // declaration hides global declaration
 #endif
 
 //[change_declaration

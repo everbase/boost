@@ -93,4 +93,51 @@ BOOST_DATA_TEST_CASE( test_case_interface_06, samples1 * samples2 * samples3, in
     ++index6;
 }
 
+//____________________________________________________________________________//
+
+// test dataset dim > 3
+int index7 = 0;
+
+float samples4[] = {1E3f, 1E-3f, 3.14f};
+
+#define sizeoftable(x) (sizeof(x)/sizeof(x[0]))
+
+BOOST_DATA_TEST_CASE( test_case_interface_07, samples1 * samples2 * samples3 * samples4, intval, str, val2, floatval )
+{
+    BOOST_TEST_CONTEXT("index7 " << index7) {
+      BOOST_TEST( intval == samples1[index7/(sizeoftable(samples4)*sizeoftable(samples3)*samples2.size())] );
+      BOOST_TEST( str == samples2[(index7/(sizeoftable(samples4)*sizeoftable(samples3)))%samples2.size()] );
+      BOOST_TEST( val2 == samples3[(index7/sizeoftable(samples4))%sizeoftable(samples3)] );
+      BOOST_TEST( floatval == samples4[index7%sizeoftable(samples4)] );
+    }
+    ++index7;
+}
+
+//____________________________________________________________________________//
+
+static int index8 = 1;
+
+struct SharedFixture {
+    SharedFixture()
+    : m_expected(index8++)
+    {
+    }
+
+    int m_expected;
+};
+
+BOOST_DATA_TEST_CASE_F( SharedFixture, test_case_interface_08, data::make({1,2,3}) )
+{
+    BOOST_TEST( sample == m_expected );
+}
+
+//____________________________________________________________________________//
+
+BOOST_DATA_TEST_CASE(test_case_interface_correct_file_line_declaration, samples2)
+{
+  boost::unit_test::test_case const& current_test_case = boost::unit_test::framework::current_test_case();
+  BOOST_TEST(current_test_case.p_line_num == 136);
+  BOOST_TEST(current_test_case.p_file_name == __FILE__);
+}
+
 // EOF

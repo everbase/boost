@@ -1,15 +1,15 @@
 [book Math Toolkit
     [quickbook 1.6]
-    [copyright 2006, 2007, 2008, 2009, 2010, 2012, 2013, 2014 Nikhar Agrawal, Anton Bikineev, Paul A. Bristow, Marco Guazzone, Christopher Kormanyos, Hubert Holin, Bruno Lalande, John Maddock, Johan Råde, Gautam Sewani, Benjamin Sobotta, Thijs van den Berg, Daryle Walker and Xiaogang Zhang]
+    [copyright 2006, 2007, 2008, 2009, 2010, 2012, 2013, 2014 Nikhar Agrawal, Anton Bikineev, Paul A. Bristow, Marco Guazzone, Christopher Kormanyos, Hubert Holin, Bruno Lalande, John Maddock, Jeremy Murphy, Johan Råde, Gautam Sewani, Benjamin Sobotta, Thijs van den Berg, Daryle Walker and Xiaogang Zhang]
     [/purpose ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22]
     [license
         Distributed under the Boost Software License, Version 1.0.
         (See accompanying file LICENSE_1_0.txt or copy at
         [@http://www.boost.org/LICENSE_1_0.txt])
     ]
-    [authors [Agrawal, Nikhar], [Bikineev, Anton], [Bristow, Paul A.], [Holin, Hubert], [Guazzone, Marco], [Kormanyos, Christopher], [Lalande, Bruno], [Maddock, John], [Råde, Johan], [Sobotta, Benjamin], [Sewani, Gautam], [van den Berg, Thijs], [Walker, Daryle], [Zhang, Xiaogang]]
+    [authors [Agrawal, Nikhar], [Bikineev, Anton], [Bristow, Paul A.], [Holin, Hubert], [Guazzone, Marco], [Kormanyos, Christopher], [Lalande, Bruno], [Maddock, John], [Murphy, Jeremy W.], [Råde, Johan], [Sobotta, Benjamin], [Sewani, Gautam], [van den Berg, Thijs], [Walker, Daryle], [Zhang, Xiaogang]]
     [/last-revision $Date$]
-    [version 2.3.0]
+    [version 2.5.2]
 ]
 
 [template mathpart[id title]
@@ -131,6 +131,9 @@ and use the function's name as the link text.]
 [def __fifth_root [link math_toolkit.roots.root_finding_examples.5th_root_eg fifth root]]
 [def __nth_root [link math_toolkit.roots.root_finding_examples.nth_root nth root]]
 [def __multiprecision_root [link math_toolkit.roots.root_finding_examples.multiprecision_root multiprecision root]]
+[def __polynomial_arithmetic [link math_toolkit.roots.polynomial_arithmetic polynomial arithmetic]]
+[def __evaluation [link math_toolkit.roots.rational.polynomial_evaluation polynomial \& rational evaluation]]
+
 [/gammas]
 [def __lgamma [link math_toolkit.sf_gamma.lgamma lgamma]]
 [def __digamma [link math_toolkit.sf_gamma.digamma digamma]]
@@ -258,7 +261,6 @@ and use the function's name as the link text.]
 [def __float_advance [link math_toolkit.next_float.float_advance float_advance]]
 [def __ulp [link math_toolkit.next_float.ulp ulp]]
 
-
 [/powers etc]
 [def __expm1 [link math_toolkit.powers.expm1 expm1]]
 [def __log1p [link math_toolkit.powers.log1p log1p]]
@@ -294,6 +296,8 @@ and use the function's name as the link text.]
 [def __expint [link math_toolkit.expint.expint_i expint]]
 [def __spherical_harmonic [link math_toolkit.sf_poly.sph_harm spherical_harmonic]]
 [def __owens_t [link math_toolkit.owens_t Owens T]]
+[def __constants_intro [link math_toolkit.constants_intro  constants]]
+[def __constants[link math_toolkit.constants  constants]]
 
 [/tools]
 [def __tuple [link math_toolkit.internals.tuples boost::math::tuple]]
@@ -367,9 +371,7 @@ and use the function's name as the link text.]
 [def __promotion_policy [link math_toolkit.pol_ref.internal_promotion internal promotion policy]]
 [def __precision_policy [link math_toolkit.pol_ref.precision_pol precision policy]]
 [def __policy_macros [link math_toolkit.pol_ref.policy_defaults Using Macros to Change the Policy Defaults]]
-[def __random_variate [@http://en.wikipedia.org/wiki/Random_variate random variate]]
-[def __random_variable [@http://en.wikipedia.org/wiki/Random_variable random variable]]
-[def __probability_distribution [@http://en.wikipedia.org/wiki/Probability_distribution probability_distribution]]
+
 
 [def __usual_accessors __cdf, __pdf, __quantile, __hazard,
    __chf, __mean, __median, __mode, __variance, __sd, __skewness,
@@ -422,6 +424,11 @@ and use the function's name as the link text.]
 [def __guard_digits [@http://en.wikipedia.org/wiki/Guard_digit guard digits]]
 [def __SSE2 [@http://en.wikipedia.org/wiki/SSE2 SSE2 instructions]]
 [def __representable [@http://en.wikipedia.org/wiki/Floating_point#Representable_numbers.2C_conversion_and_rounding representable]]
+[def __short_float [@http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2016.pdf N2016 short float type]]
+[def __random_variate [@http://en.wikipedia.org/wiki/Random_variate random variate]]
+[def __random_variable [@http://en.wikipedia.org/wiki/Random_variable random variable]]
+[def __probability_distribution [@http://en.wikipedia.org/wiki/Probability_distribution probability_distribution]]
+[def __C_math [@http://www.cplusplus.com/reference/cmath/ C math functions]]
 
 [/ Some composite templates]
 [template super[x]'''<superscript>'''[x]'''</superscript>''']
@@ -612,9 +619,11 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 [include octonion/math-octonion.qbk]
 [include gcd/math-gcd.qbk]
 
-[mathpart rooting Tools: Root Finding and Minimization Algorithms]
+[mathpart rooting Tools: Root Finding \& Minimization Algorithms, Polynomial  Arithmetic \& Evaluation]
 [section:roots Root finding]
 [include roots/roots_overview.qbk]
+[include internals/polynomial.qbk]
+[include internals/rational.qbk]
 [endsect] [/section:roots Root finding]
 
 [endmathpart] [/mathpart roots Root Finding Algorithms]
@@ -625,9 +634,9 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 [section:internals Internal tools]
 [include internals/series.qbk]
 [include internals/fraction.qbk]
-[include internals/rational.qbk]
+[/include internals/rational.qbk] [/moved to tools]
 [include internals/tuple.qbk]
-[include internals/polynomial.qbk]
+[/include internals/polynomial.qbk] [/moved to tools]
 [include internals/minimax.qbk]
 [include internals/relative_error.qbk] [/ uncertainty of floating-point calculations.]
 [include internals/test_data.qbk]
@@ -691,7 +700,7 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 [endmathpart]
 
 [/ math.qbk
-  Copyright 2008, 2010, 2012, 2013, 2014 John Maddock and Paul A. Bristow.
+  Copyright 2008, 2010, 2012, 2013, 2014, 2015 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at
   http://www.boost.org/LICENSE_1_0.txt).

@@ -1,9 +1,13 @@
 // Boost.Geometry (aka GGL, Generic Geometry Library)
 // Unit Test
 
-// Copyright (c) 2007-2015 Barend Gehrels, Amsterdam, the Netherlands.
-// Copyright (c) 2008-2015 Bruno Lalande, Paris, France.
-// Copyright (c) 2009-2015 Mateusz Loskot, London, UK.
+// Copyright (c) 2007-2016 Barend Gehrels, Amsterdam, the Netherlands.
+// Copyright (c) 2008-2016 Bruno Lalande, Paris, France.
+// Copyright (c) 2009-2016 Mateusz Loskot, London, UK.
+
+// This file was modified by Oracle on 2016.
+// Modifications copyright (c) 2016, Oracle and/or its affiliates.
+// Contributed and/or modified by Adam Wulkiewicz, on behalf of Oracle
 
 // Parts of Boost.Geometry are redesigned from Geodan's Geographic Library
 // (geolib/GGL), copyright (c) 1995-2010 Geodan, Amsterdam, the Netherlands.
@@ -14,10 +18,6 @@
 
 #include <iostream>
 #include <string>
-
-// If defined, tests are run without rescaling-to-integer or robustness policy
-// Test which would fail then are disabled automatically
-// #define BOOST_GEOMETRY_NO_ROBUSTNESS
 
 #include "test_union.hpp"
 #include <algorithms/test_overlay.hpp>
@@ -31,6 +31,9 @@ template <typename Ring, typename Polygon>
 void test_areal()
 {
     typedef typename bg::coordinate_type<Polygon>::type ct;
+
+    ut_settings ignore_validity;
+    ignore_validity.test_validity = false;
 
     test_one<Polygon, Polygon, Polygon>("simplex_normal",
         simplex_normal[0], simplex_normal[1],
@@ -169,7 +172,7 @@ void test_areal()
     test_one<Polygon, Polygon, Polygon>("33",
                 case_33[0], case_33[1], 2, 0, 8, 4.5);
     test_one<Polygon, Polygon, Polygon>("36",
-                case_36[0], case_36[1], 1, 0, 10, 14.375);
+                case_36[0], case_36[1], 1, 1, 10, 14.375);
     test_one<Polygon, Polygon, Polygon>("40",
                 case_40[0], case_40[1], 2, 0, 18, 11);
 
@@ -178,6 +181,7 @@ void test_areal()
                 case_53[0], case_53[2], 1, 1, 16, 16);
     test_one<Polygon, Polygon, Polygon>("58_iet",
                 case_58[0], case_58[2], 1, 3, 20, 12.16666);
+
     test_one<Polygon, Polygon, Polygon>("59_iet",
                 case_59[0], case_59[2], 1, 1, 14, 17.20833);
 
@@ -186,6 +190,52 @@ void test_areal()
 
     test_one<Polygon, Polygon, Polygon>("81",
                 case_81[0], case_81[1], 1, 2, 15, 163.5);
+
+    test_one<Polygon, Polygon, Polygon>("82",
+                case_82[0], case_82[1], 1, 1, 21, 19.75);
+
+    test_one<Polygon, Polygon, Polygon>("83",
+                case_83[0], case_83[1], 1, 0, 7, 20.0);
+
+    test_one<Polygon, Polygon, Polygon>("90",
+                case_90[0], case_90[1], 1, 2, 17, 221.3688);
+
+    test_one<Polygon, Polygon, Polygon>("91",
+                case_91[0], case_91[1], 1, 1, 9, 147.5);
+
+    test_one<Polygon, Polygon, Polygon>("92",
+                case_92[0], case_92[1], 2, 0, 9, 175.0);
+
+    test_one<Polygon, Polygon, Polygon>("93",
+                case_93[0], case_93[1], 1, 2, 12, 172.9167);
+
+    test_one<Polygon, Polygon, Polygon>("94",
+                case_94[0], case_94[1], 2, 0, 12, 170.0);
+
+    // Has two separate but touching interior rings
+    test_one<Polygon, Polygon, Polygon>("95",
+                case_95[0], case_95[1], 1, 2, 15, 1320.0);
+
+    test_one<Polygon, Polygon, Polygon>("96",
+                case_96[0], case_96[1], 1, 1, 10, 1500.0);
+
+    test_one<Polygon, Polygon, Polygon>("97",
+                case_97[0], case_97[1], 1, 0, 10, 286.799);
+
+    test_one<Polygon, Polygon, Polygon>("98",
+                case_98[0], case_98[1], 1, 1, 14, 653.067);
+
+    test_one<Polygon, Polygon, Polygon>("99",
+                case_99[0], case_99[1], 1, 0, 5, 1600.0);
+
+    test_one<Polygon, Polygon, Polygon>("100",
+                case_100[0], case_100[1], 1, 1, 13, 19.125);
+
+    test_one<Polygon, Polygon, Polygon>("101",
+                case_101[0], case_101[1], 1, 0, 9, 21.0);
+
+    test_one<Polygon, Polygon, Polygon>("102",
+                case_102[0], case_102[1], 1, 1, 17, 8.75);
 
     /*
     test_one<Polygon, Polygon, Polygon>(102,
@@ -250,6 +300,9 @@ void test_areal()
     {
         ut_settings settings;
         settings.percentage = 0.1;
+#if defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
+        settings.test_validity = false;
+#endif
 
         test_one<Polygon, Polygon, Polygon>("isovist",
             isovist1[0], isovist1[1],
@@ -290,29 +343,34 @@ void test_areal()
             ticket_9081_15[0], ticket_9081_15[1],
             1, 0, 10, 0.0403425433);
 
-#if ! defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
     test_one<Polygon, Polygon, Polygon>("ticket_9563", ticket_9563[0], ticket_9563[1],
             1, 0, 13, 150.0);
-#endif
 
     test_one<Polygon, Polygon, Polygon>("ticket_9756", ticket_9756[0], ticket_9756[1],
             1, 0, 10, 1289.08374);
 
 #if defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
-    // The number of clips is reversed here
     test_one<Polygon, Polygon, Polygon>("ticket_10108_a", ticket_10108_a[0], ticket_10108_a[1],
             1, 0, 8, 0.0435229);
-    test_one<Polygon, Polygon, Polygon>("ticket_10108_b", ticket_10108_b[0], ticket_10108_b[1],
-            2, 0, 10, 2424.3449);
 #else
     test_one<Polygon, Polygon, Polygon>("ticket_10108_a", ticket_10108_a[0], ticket_10108_a[1],
             2, 0, 8, 0.0435229);
+#endif
+
+#if ! defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
     test_one<Polygon, Polygon, Polygon>("ticket_10108_b", ticket_10108_b[0], ticket_10108_b[1],
             1, 0, 10, 2424.3449);
 #endif
 
+    test_one<Polygon, Polygon, Polygon>("ticket_10866", ticket_10866[0], ticket_10866[1],
+            1, 0, 14, 332760303.5);
+
+    test_one<Polygon, Polygon, Polygon>("ticket_11725", ticket_11725[0], ticket_11725[1],
+            1, 1, 10, 7.5);
+
     test_one<Polygon, Polygon, Polygon>("geos_1", geos_1[0], geos_1[1],
-            1, 0, -1, 3461.3203125);
+            1, 0, -1, 3461.3203125,
+            ignore_validity);
     test_one<Polygon, Polygon, Polygon>("geos_2", geos_2[0], geos_2[1],
             1, 0, -1, 350.55102539);
     test_one<Polygon, Polygon, Polygon>("geos_3", geos_3[0], geos_3[1],
@@ -326,9 +384,11 @@ void test_areal()
     // Robustness issues, followed out buffer-robustness-tests, test them also reverse
 #if ! defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
     test_one<Polygon, Polygon, Polygon>("buffer_rt_f", buffer_rt_f[0], buffer_rt_f[1],
-                1, 0, if_typed<ct, double>(18, 23), 4.60853);
+                1, 0, if_typed<ct, double>(18, 23), 4.60853,
+                ignore_validity);
     test_one<Polygon, Polygon, Polygon>("buffer_rt_f_rev", buffer_rt_f[1], buffer_rt_f[0],
-                1, 0, if_typed<ct, double>(18, 23), 4.60853);
+                1, 0, if_typed<ct, double>(18, 23), 4.60853,
+                ignore_validity);
 #endif
 
     test_one<Polygon, Polygon, Polygon>("buffer_rt_g", buffer_rt_g[0], buffer_rt_g[1],
@@ -388,12 +448,10 @@ void test_areal()
                 1, 0, if_typed_tt<ct>(93, 91), 22.815);
 
     test_one<Polygon, Polygon, Polygon>("buffer_mp2", buffer_mp2[0], buffer_mp2[1],
-                1, 0, 217, 36.752837);
-
-#ifdef BOOST_GEOMETRY_TEST_INCLUDE_FAILING_TESTS
-    test_one<Polygon, Polygon, Polygon>("ticket_11725",
-        ticket_11725[0], ticket_11725[1],
-        1, 1, -1, 7.5);
+#if defined(BOOST_GEOMETRY_NO_ROBUSTNESS)
+                1, 0, 217, 36.752837, ignore_validity);
+#else
+                1, 1, 217, 36.752837);
 #endif
 
     test_one<Polygon, Polygon, Polygon>("mysql_21964079_1",
@@ -402,6 +460,16 @@ void test_areal()
     test_one<Polygon, Polygon, Polygon>("mysql_21964079_2",
         mysql_21964079_2[0], mysql_21964079_2[1],
         2, 1, -1, 112.0);
+
+    test_one<Polygon, Polygon, Polygon>("mysql_23023665_1",
+        mysql_23023665_1[0], mysql_23023665_1[1],
+        2, 1, -1, 92.0 + 142.5);
+    test_one<Polygon, Polygon, Polygon>("mysql_23023665_2",
+        mysql_23023665_2[0], mysql_23023665_2[1],
+        2, 1, -1, 96.0 + 16.0);
+    test_one<Polygon, Polygon, Polygon>("mysql_23023665_3",
+        mysql_23023665_3[0], mysql_23023665_3[1],
+        2, 1, -1, 225.0 + 66.0);
     test_one<Polygon, Polygon, Polygon>("mysql_21964049",
         mysql_21964049[0], mysql_21964049[1],
         1, 1, -1, 220.5);

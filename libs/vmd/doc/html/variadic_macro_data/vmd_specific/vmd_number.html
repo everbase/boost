@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Numbers</title>
 <link rel="stylesheet" href="../../../../../../doc/src/boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Variadic Macro Data Library 1.9">
 <link rel="up" href="../vmd_specific.html" title="Specific macros for working with data types">
 <link rel="prev" href="vmd_identifier.html" title="Identifiers">
@@ -71,7 +71,8 @@
 </ul></div>
 <p>
         and if the first character is not the left parenthesis of a tuple the remaining
-        characters must be alphanumeric until a space character or end of input occurs.
+        characters must be alphanumeric or an underscore until a space character
+        or end of input occurs.
       </p>
 <p>
         If this is not the case the behavior is undefined, and most likely a preprocessing
@@ -142,7 +143,8 @@
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
-<td align="right"><div class="copyright-footer">Copyright &#169; 2010-2015 Tropic Software East Inc</div></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2010-2017 Tropic Software
+      East Inc</div></td>
 </tr></table>
 <hr>
 <div class="spirit-nav">

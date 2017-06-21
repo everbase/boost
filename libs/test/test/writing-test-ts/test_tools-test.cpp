@@ -129,9 +129,9 @@ BOOST_AUTO_TEST_CASE( name )                                        \
     ut::framework::run( impl );                                     \
                                                                     \
     ut::log_level ll = ut::runtime_config::get<ut::log_level>(      \
-        ut::runtime_config::LOG_LEVEL );                            \
+        ut::runtime_config::btrt_log_level );                       \
     ut::output_format lf = ut::runtime_config::get<ut::output_format>( \
-        ut::runtime_config::LOG_FORMAT );                           \
+        ut::runtime_config::btrt_log_format );                      \
                                                                     \
     ut::unit_test_log.set_threshold_level(                          \
         ll != ut::invalid_log_level ? ll : ut::log_all_errors );    \
@@ -731,10 +731,10 @@ namespace boost{ namespace test_tools{ namespace tt_detail{
 template<>
 struct print_log_value<double> {
     void    operator()( std::ostream& os, double d )
-	{
-		std::streamsize curr_prec = os.precision();
-		os << std::setprecision(1) << d << std::setprecision( curr_prec );
-	}
+  {
+    std::streamsize curr_prec = os.precision();
+    os << std::setprecision(1) << d << std::setprecision( curr_prec );
+  }
 };
 }}}
 
@@ -873,5 +873,30 @@ BOOST_AUTO_TEST_CASE( test_precision_mutation, * ut::expected_failures( 1 ) )
 
     BOOST_TEST( initial_precition == std::cout.precision() );
 }
+
+//____________________________________________________________________________//
+
+// addresses issue #11887
+#if !defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) && \
+    !defined(BOOST_NO_CXX11_LAMBDAS) && \
+    !defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && \
+    !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST) && \
+    !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX)
+
+struct rv_erasure_test {
+    rv_erasure_test() : value( 1 ) {}
+    ~rv_erasure_test() { value = 0; }
+
+    int value;
+};
+
+BOOST_AUTO_TEST_CASE( test_rvalue_erasure )
+{
+    auto erase_rv = []( rv_erasure_test const& arg ) -> rv_erasure_test const& { return arg; };
+
+    BOOST_TEST( 1 == erase_rv( rv_erasure_test{} ).value );
+}
+
+#endif
 
 // EOF

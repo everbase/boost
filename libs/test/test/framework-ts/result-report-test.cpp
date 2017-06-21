@@ -101,7 +101,7 @@ struct guard {
     {
         results_reporter::set_stream( std::cerr );
         results_reporter::set_format( runtime_config::get<output_format>(
-            runtime_config::REPORT_FORMAT ) );
+            runtime_config::btrt_report_format ) );
     }
 };
 
@@ -151,6 +151,12 @@ BOOST_AUTO_TEST_CASE( test_result_reports )
         ts_main->add( ts_2 );
         ts_main->add( ts_3 );
 
+    test_suite* ts_char_escaping = BOOST_TEST_SUITE( "Char escaping" );
+        ts_char_escaping->add( BOOST_TEST_CASE( good_foo ) );
+        test_case * i_have_problems = BOOST_TEST_CASE( bad_foo );
+        i_have_problems->p_name.set("bad_foo<h>");
+        ts_char_escaping->add( i_have_problems );
+
     check( test_output, ts_1 );
 
     check( test_output, ts_1b );
@@ -164,6 +170,8 @@ BOOST_AUTO_TEST_CASE( test_result_reports )
     ts_3->depends_on( ts_1 );
 
     check( test_output, ts_main );
+
+    check( test_output, ts_char_escaping );
 
     results_reporter::set_stream( std::cout );
 }
